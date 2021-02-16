@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Authors>tom-englert</Authors>
+    <Company>tom-englert.de</Company>
+    <Version>1.0.0</Version>
+    <Product>$(MSBuildProjectName)</Product>
+    <Copyright>Copyright © 2021 tom-englert.de</Copyright>
+    <Title>$(MSBuildProjectName)</Title>
+    <Description>Extends Microsoft.VSSDK.BuildTools so you can use SDK style projects for your Visual Studio Extension.</Description>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GitHubOrganization>tom-englert</GitHubOrganization>
+    <PackageId>$(MSBuildProjectName)</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IsTool>true</IsTool>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageIconFiles Include="$(SolutionDir)*icon*.png" />
+    <PackageLicenseFiles Include="$(SolutionDir)*license*" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageIconFileName Condition="'$(PackageIconFileName)' == ''">@(PackageIconFiles->'%(Filename)%(Extension)')</PackageIconFileName>
+    <PackageLicenseFileName Condition="'$(PackageLicenseFileName)' == ''">@(PackageLicenseFiles->'%(Filename)%(Extension)')</PackageLicenseFileName>
+    <PackageProjectUrl>http://github.com/$(GitHubOrganization)/$(PackageId)</PackageProjectUrl>
+    <PackageIcon>$(PackageIconFileName)</PackageIcon>
+    <PackageLicenseFile>$(PackageLicenseFileName)</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="@(PackageIconFiles)" Link="$(PackageIconFileName)" Pack="true" PackagePath="\" />
+    <None Include="@(PackageLicenseFiles)" Link="$(PackageLicenseFileName)" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="build\**" />
+    <Content Include="build\*" PackagePath="build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageLicenseFiles Remove="License.txt" />
+  </ItemGroup>
+
+</Project>
