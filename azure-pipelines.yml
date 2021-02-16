@@ -23,7 +23,7 @@ steps:
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Packages'
   inputs:
     SourceFolder: 'bin/$(BuildConfiguration)'
-    Contents: '*.nupkg'
+    Contents: '**/*.nupkg'
     TargetFolder: '$(build.artifactstagingdirectory)/Packages'
 
 - task: PublishBuildArtifacts@1
