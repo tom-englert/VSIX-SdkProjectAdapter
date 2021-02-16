@@ -1,0 +1,33 @@
+name: $(Build.DefinitionName) $(date:yyyyMMdd)$(rev:.r)
+
+pool:
+  vmImage: 'windows-latest'
+  demands:
+  - msbuild
+
+variables:
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+steps:
+- task: MSBuild@1
+  displayName: 'Build Solution'
+  inputs:
+    solution: '**\*.sln'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    clean: true
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Packages'
+  inputs:
+    SourceFolder: 'bin/$(BuildConfiguration)'
+    Contents: '*.nupkg'
+    TargetFolder: '$(build.artifactstagingdirectory)/Packages'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: Packages'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/Packages'
+    ArtifactName: Packages
+
