@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSSDK.BuildTools.SdkProjectAdapter", "VSSDK.BuildTools.SdkProjectAdapter.csproj", "{83A10D15-C24A-4FA6-A768-284C2A95EB8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSIX-SdkProjectAdapter", "VSIX-SdkProjectAdapter.csproj", "{83A10D15-C24A-4FA6-A768-284C2A95EB8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
