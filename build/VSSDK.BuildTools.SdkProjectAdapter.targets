@@ -9,6 +9,8 @@
     <Exec Command='powershell.exe -ExecutionPolicy Unrestricted -file "$(MSBuildThisFileDirectory)SetVsixManifestVersion.ps1" -Version "$(Version)" -ManifestFile "$(VsixManifestSourceFile)"' />
   </Target>
 
+  <!-- NuGetTargets needs to be imported, but SkipImportNuGetBuildTargets defaults to true in SDK style project and we can't override this flag from within a package. -->
   <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' == 'true'" Project="$(NuGetTargets)" />
+  <!-- Microsoft.VsSDK.targets needs to be imported from here! Importing Microsoft.VsSDK.targets in the project is too early, so it won't work.  -->
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" />
 </Project>
