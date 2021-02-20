@@ -1,21 +1,25 @@
 # VSIX-SdkProjectAdapter
+[![Build Status](https://dev.azure.com/tom-englert/Open%20Source/_apis/build/status/VSIX-SdkProjectAdapter?repoName=tom-englert%2FVSIX-SdkProjectAdapter&branchName=master)](https://dev.azure.com/tom-englert/Open%20Source/_build/latest?definitionId=40&repoName=tom-englert%2FVSIX-SdkProjectAdapter&branchName=master)
+[![NuGet Status](http://img.shields.io/nuget/v/VSIX-SdkProjectAdapter.svg?style=flat)](https://www.nuget.org/packages/VSIX-SdkProjectAdapter/)
 
 Extends Microsoft.VSSDK.BuildTools so you can use SDK style projects for your Visual Studio Extension.
 
 ---
+### Preparation
+- Ensure your VSIX project uses the latest tools: [Writing Visual Studio Extensions with Mads - Upgrading an old extension](https://www.youtube.com/watch?v=apPIuJCZhUk)
+- Migrate your VSIX project to the SDK style project format. (e.g. using [Project Migration Helper](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ProjectMigrationHelper)). 
+  In this state your project will build the binaries, but does not generate the `.vsix` container.
 
 ### Usage
-- Upgrade your VSIX project to use the latest tools: [Writing Visual Studio Extensions with Mads - Upgrading an old extension](https://www.youtube.com/watch?v=apPIuJCZhUk)
-- Migrate your VSIX project to the SDK style project format.
 - Add a PackageReference to [VSIX-SdkProjectAdapter](https://github.com/tom-englert/VSIX-SdkProjectAdapter.git)
-- Remove the import to `Microsoft.VsSDK.targets` from your project:
+- **Remove** the import to `Microsoft.VsSDK.targets` from your project:
 ```xml 
 <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
 ```
 ---
 
 ### Features
-- The version in your `source.extension.manifest` file will be automatically synchronized with the `<Version>` of your project.
+- The version in your `source.extension.manifest` file will be automatically synchronized with the `<Version>` of your project. Turn of by setting the property `<SkipSetVsixManifestVersion>` to `true`
 
 
 
