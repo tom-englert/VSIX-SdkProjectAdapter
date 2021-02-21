@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <VSCTResourceName>Menus.ctmenu</VSCTResourceName>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true'">
+    <None Update="**\*.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <VSCTCompile Include="**\*.vsct">
+      <ResourceName>$(VSCTResourceName)</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+</Project>

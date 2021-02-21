@@ -4,6 +4,10 @@
     <ResolveNuGetPackages>true</ResolveNuGetPackages>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true'">
+    <None Remove="**\*.vsct" />
+  </ItemGroup>
+
   <Target Name="_SetVsixManifestVersion" AfterTargets="FindSourceVsixManifest" Condition="'$(SkipSetVsixManifestVersion)'!='true'">
     <Message Text="Set VSIX Manifest Version" />
     <Exec Command='powershell.exe -ExecutionPolicy Unrestricted -file "$(MSBuildThisFileDirectory)SetVsixManifestVersion.ps1" -Version "$(Version)" -ManifestFile "$(VsixManifestSourceFile)"' />
