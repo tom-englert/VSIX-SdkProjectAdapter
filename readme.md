@@ -20,6 +20,29 @@ Extends Microsoft.VSSDK.BuildTools so you can use SDK style projects for your Vi
 
 ### Features
 - The version in your `source.extension.manifest` file will be automatically synchronized with the `<Version>` of your project. Turn of by setting the property `<SkipSetVsixManifestVersion>` to `true`
+- These properties and items are set by default, so you don't have to include them in your project:
+```xml
+<PropertyGroup>
+  <VsixManifestSourceFile>source.extension.vsixmanifest</VsixManifestSourceFile>
+  <GeneratePkgDefFile>true</GeneratePkgDefFile>
+  <UseCodebase>true</UseCodebase>
+  <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+  <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+  <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+  <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+  <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+  <VSCTResourceName>Menus.ctmenu</VSCTResourceName>
+</PropertyGroup>
+
+<ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true'">
+  <None Update="**\*.vsixmanifest">
+    <SubType>Designer</SubType>
+  </None>
+  <VSCTCompile Include="**\*.vsct">
+    <ResourceName>$(VSCTResourceName)</ResourceName>
+  </VSCTCompile>
+</ItemGroup>
+```
 
 
 

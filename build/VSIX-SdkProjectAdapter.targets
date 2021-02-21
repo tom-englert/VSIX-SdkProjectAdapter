@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-    <VsixManifestSourceFile Condition="'$(VsixManifestSourceFile)' == ''">source.extension.vsixmanifest</VsixManifestSourceFile>
     <ResolveNuGetPackages>true</ResolveNuGetPackages>
   </PropertyGroup>
 
