@@ -2,7 +2,7 @@
 [![Build Status](https://dev.azure.com/tom-englert/Open%20Source/_apis/build/status/VSIX-SdkProjectAdapter?repoName=tom-englert%2FVSIX-SdkProjectAdapter&branchName=master)](https://dev.azure.com/tom-englert/Open%20Source/_build/latest?definitionId=40&repoName=tom-englert%2FVSIX-SdkProjectAdapter&branchName=master)
 [![NuGet Status](http://img.shields.io/nuget/v/VSIX-SdkProjectAdapter.svg?style=flat)](https://www.nuget.org/packages/VSIX-SdkProjectAdapter/)
 
-Extends Microsoft.VSSDK.BuildTools so you can use SDK style projects for your Visual Studio Extension.
+Extends [Microsoft.VSSDK.BuildTools](https://www.nuget.org/packages/Microsoft.VSSDK.BuildTools/) so you can use SDK style projects for your Visual Studio Extension.
 
 ---
 ### Preparation
