@@ -19,30 +19,33 @@ Extends [Microsoft.VSSDK.BuildTools](https://www.nuget.org/packages/Microsoft.VS
 ---
 
 ### Features
-- The version in your `source.extension.manifest` file will be automatically synchronized with the `<Version>` of your project. Turn of by setting the property `<SkipSetVsixManifestVersion>` to `true`
 - These properties and items are set by default, so you don't have to include them in your project:
 ```xml
-<PropertyGroup>
-  <VsixManifestSourceFile>source.extension.vsixmanifest</VsixManifestSourceFile>
-  <GeneratePkgDefFile>true</GeneratePkgDefFile>
-  <UseCodebase>true</UseCodebase>
-  <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
-  <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
-  <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
-  <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
-  <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
-  <VSCTResourceName>Menus.ctmenu</VSCTResourceName>
-</PropertyGroup>
-
-<ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true'">
-  <None Update="**\*.vsixmanifest">
-    <SubType>Designer</SubType>
-  </None>
-  <VSCTCompile Include="**\*.vsct">
-    <ResourceName>$(VSCTResourceName)</ResourceName>
-  </VSCTCompile>
-</ItemGroup>
+  <PropertyGroup Condition="'$(SkipVSIXDefaultProperties)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
+    <UseCodebase>true</UseCodebase>
+    <VSCTResourceName Condition="'$(VSCTResourceName)'==''">Menus.ctmenu</VSCTResourceName>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
+    <None Update="**\*.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <VSCTCompile Include="**\*.vsct" Condition="'$(VSCTResourceName)'!=''">
+      <ResourceName>$(VSCTResourceName)</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
 ```
+- Provides a build target to set the version in your `source.extension.manifest` file; just use ` Version="|%CurrentProject%;GetVsixVersion|"` in your manifest file.
+
+  Turn of the target by setting the property `<SkipVsixGetVersionTarget>` to `true`:
+```xml
+  <Target Name="GetVsixVersion" Returns="$(VsixVersion)" Condition="'$(SkipVsixGetVersionTarget)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
+    <PropertyGroup>
+      <VsixVersion Condition="'$(VsixVersion)' == ''">$(Version)</VsixVersion>
+    </PropertyGroup>
+  </Target>  
+```
+- Disable all features at once by setting the property `<SkipVSIXDefaults>` to `true`
 
 
 
