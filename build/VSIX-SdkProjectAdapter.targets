@@ -3,11 +3,11 @@
     <ResolveNuGetPackages>true</ResolveNuGetPackages>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true'">
+  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
     <None Remove="**\*.vsct" />
   </ItemGroup>
 
-  <Target Name="GetVsixVersion" Returns="$(VsixVersion)" Condition="'$(SkipVsixGetVersionTarget)'!='true'">
+  <Target Name="GetVsixVersion" Returns="$(VsixVersion)" Condition="'$(SkipVsixGetVersionTarget)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
     <PropertyGroup>
       <VsixVersion Condition="'$(VsixVersion)' == ''">$(Version)</VsixVersion>
     </PropertyGroup>
