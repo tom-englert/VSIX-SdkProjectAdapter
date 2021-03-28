@@ -1,13 +1,6 @@
 <Project>
-  <PropertyGroup>
-    <VsixManifestSourceFile>source.extension.vsixmanifest</VsixManifestSourceFile>
-    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+  <PropertyGroup Condition="'$(SkipVSIXDefaultProperties)'!='true'">
     <UseCodebase>true</UseCodebase>
-    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
-    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
-    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
-    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
-    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
     <VSCTResourceName>Menus.ctmenu</VSCTResourceName>
   </PropertyGroup>
   
