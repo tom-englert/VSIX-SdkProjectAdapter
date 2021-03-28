@@ -7,10 +7,11 @@
     <None Remove="**\*.vsct" />
   </ItemGroup>
 
-  <Target Name="_SetVsixManifestVersion" AfterTargets="FindSourceVsixManifest" Condition="'$(SkipSetVsixManifestVersion)'!='true'">
-    <Message Text="Set VSIX Manifest Version" />
-    <Exec Command='powershell.exe -ExecutionPolicy Unrestricted -file "$(MSBuildThisFileDirectory)SetVsixManifestVersion.ps1" -Version "$(Version)" -ManifestFile "$(VsixManifestSourceFile)"' />
-  </Target>
+  <Target Name="GetVsixVersion" Returns="$(VsixVersion)" Condition="'$(SkipVsixGetVersionTarget)'!='true'">
+    <PropertyGroup>
+      <VsixVersion Condition="'$(VsixVersion)' == ''">$(Version)</VsixVersion>
+    </PropertyGroup>
+  </Target>  
 
   <!-- NuGetTargets needs to be imported, but SkipImportNuGetBuildTargets defaults to true in SDK style project and we can't override this flag from within a package. -->
   <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' == 'true'" Project="$(NuGetTargets)" />
