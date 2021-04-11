@@ -1,15 +1,8 @@
 <Project>
-  <PropertyGroup Condition="'$(SkipVSIXDefaultProperties)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
-    <UseCodebase>true</UseCodebase>
+
+  <PropertyGroup>
+    <UseCodebase Condition="'$(UseCodebase)'==''">true</UseCodebase>
     <VSCTResourceName Condition="'$(VSCTResourceName)'==''">Menus.ctmenu</VSCTResourceName>
   </PropertyGroup>
   
-  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
-    <None Update="**\*.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <VSCTCompile Include="**\*.vsct" Condition="'$(VSCTResourceName)'!=''">
-      <ResourceName>$(VSCTResourceName)</ResourceName>
-    </VSCTCompile>
-  </ItemGroup>
 </Project>

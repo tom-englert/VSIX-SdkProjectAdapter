@@ -19,21 +19,52 @@ Extends [Microsoft.VSSDK.BuildTools](https://www.nuget.org/packages/Microsoft.VS
 ---
 
 ### Features
-- These properties and items are set by default, so you don't have to include them in your project:
+- These properties are set by default, so you don't have to include them in your project:
 ```xml
-  <PropertyGroup Condition="'$(SkipVSIXDefaultProperties)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
-    <UseCodebase>true</UseCodebase>
-    <VSCTResourceName Condition="'$(VSCTResourceName)'==''">Menus.ctmenu</VSCTResourceName>
-  </PropertyGroup>
-  
-  <ItemGroup Condition="'$(SkipVSIXDefaultItems)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
-    <None Update="**\*.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <VSCTCompile Include="**\*.vsct" Condition="'$(VSCTResourceName)'!=''">
-      <ResourceName>$(VSCTResourceName)</ResourceName>
-    </VSCTCompile>
-  </ItemGroup>
+<PropertyGroup>
+  <UseCodebase Condition="'$(UseCodebase)'==''">true</UseCodebase>
+  <VSCTResourceName Condition="'$(VSCTResourceName)'==''">Menus.ctmenu</VSCTResourceName>
+</PropertyGroup>
+```
+- The `VSPackage` resources and corresponding `.vsct` files are automatically included, so you don't have to include them in your project:
+```xml
+<ItemGroup Condition="'$(SkipVSIXDefaults)'!='true' AND 'EnableDefaultItems'!='false'">
+
+  <None Update="**\*.vsixmanifest">
+    <SubType>Designer</SubType>
+  </None>
+
+  <!-- Neutral VSPackage resources -->
+  <EmbeddedResource Update="VSPackage.resx">
+    <MergeWithCTO>true</MergeWithCTO>
+    <ManifestResourceName>VSPackage</ManifestResourceName>
+  </EmbeddedResource>
+
+  <!-- Localized VSPackage resources -->
+  <EmbeddedResource Update="VSPackage.*.resx">
+    <MergeWithCTO>true</MergeWithCTO>
+    <LogicalName>%(FileName).resources</LogicalName>
+    <DependentUpon>VSPackage.resx</DependentUpon>
+  </EmbeddedResource>
+
+  <_VSCTLocalizedFiles Include="*.*.vsct" />
+  <_VSCTNeutralFile Include="*.vsct" Exclude="@(_VSCTLocalizedFiles)"/>
+
+  <!-- Neutral .vsct file, only include if there are no localized files -->
+  <VSCTCompile Include="@(_VSCTNeutralFile)" Condition="@(_VSCTLocalizedFiles->'%(Identity)')==''">
+    <ResourceName>$(VSCTResourceName)</ResourceName>
+    <SubType>Designer</SubType>
+  </VSCTCompile>
+
+  <!-- Localized .vsct files -->
+  <VSCTCompile Include="@(_VSCTLocalizedFiles)">
+    <ResourceName>$(VSCTResourceName)</ResourceName>
+    <SubType>Designer</SubType>
+    <DependentUpon>@(_VSCTNeutralFile)</DependentUpon>
+  </VSCTCompile>
+
+</ItemGroup>
+
 ```
 - Provides a build target to set the version in your `source.extension.manifest` file; just use ` Version="|%CurrentProject%;GetVsixVersion|"` in your manifest file.
 
