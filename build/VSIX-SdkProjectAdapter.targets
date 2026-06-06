@@ -1,9 +1,8 @@
 <Project>
-  <PropertyGroup>
-    <ResolveNuGetPackages>true</ResolveNuGetPackages>
-  </PropertyGroup>
 
   <ItemGroup Condition="'$(SkipVSIXDefaults)'!='true' AND 'EnableDefaultItems'!='false'">
+
+    <ProjectCapability Include="CreateVsixContainer" />
 
     <None Update="**\*.vsixmanifest">
       <SubType>Designer</SubType>
@@ -40,14 +39,15 @@
 
   </ItemGroup>
 
-  <Target Name="GetVsixVersion" Returns="$(VsixVersion)">
+  <Target Name="CheckVSSDKBuildToolsAutoSetup" BeforeTargets="PrepareForBuild">
+    <Warning Condition="'$(VSSDKBuildToolsAutoSetup)' != 'true'"
+             Text="VSSDKBuildToolsAutoSetup is not set to 'true'. Set this property directly in your VSIX project to enable the tasks required to build the VSIX container." />
+  </Target>
+
+  <Target Name="GetVsixVersion" Returns="$(VsixVersion)" Condition="'$(SkipVsixGetVersionTarget)'!='true' AND '$(SkipVSIXDefaults)'!='true'">
     <PropertyGroup>
       <VsixVersion Condition="'$(VsixVersion)' == ''">$(Version)</VsixVersion>
     </PropertyGroup>
   </Target>
 
-  <!-- NuGetTargets needs to be imported, but SkipImportNuGetBuildTargets defaults to true in SDK style project and we can't override this flag from within a package. -->
-  <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' == 'true'" Project="$(NuGetTargets)" />
-  <!-- Microsoft.VsSDK.targets needs to be imported from here! Importing Microsoft.VsSDK.targets in the project is too early, so it won't work.  -->
-  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" />
 </Project>

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <UseCodebase Condition="'$(UseCodebase)'==''">true</UseCodebase>
     <VSCTResourceName Condition="'$(VSCTResourceName)'==''">Menus.ctmenu</VSCTResourceName>
+    <VsixDeployOnDebug Condition="'$(VsixDeployOnDebug)' == ''">true</VsixDeployOnDebug>
+    <GeneratePkgDefFile Condition="'$(GeneratePkgDefFile)' == ''">true</GeneratePkgDefFile>
   </PropertyGroup>
-  
+
 </Project>
